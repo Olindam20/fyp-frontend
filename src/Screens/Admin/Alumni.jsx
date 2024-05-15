@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { baseApiURL } from '../../baseUrl';
-
+import toast from 'react-hot-toast'; // Import toast from react-hot-toast
 
 const AddAlumniForm = () => {
   const [alumniData, setAlumniData] = useState({
@@ -20,9 +20,19 @@ const AddAlumniForm = () => {
     try {
       const response = await axios.post(`${baseApiURL()}/alumni/addAlumni`, alumniData);
       console.log('Alumni added:', response.data);
-      // You can perform any actions here after successful addition of alumni data
+      // Clear form after successful addition
+      setAlumniData({
+        name: '',
+        linkedinURL: '',
+        phoneNumber: '',
+        currentCompany: ''
+      });
+      // Show success toast message
+      toast.success('Alumni added successfully!');
     } catch (error) {
       console.error('Error adding alumni:', error);
+      // Show error toast message
+      toast.error('Failed to add alumni. Please try again later.');
     }
   };
 
